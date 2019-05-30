@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
+	"path/filepath"
 
 	"github.com/tomekwlod/utils"
 	"github.com/tomekwlod/utils/sftp"
@@ -84,6 +85,8 @@ func main() {
 		Port:     sftpLocation.Port,
 	}
 
+	backupPath := filepath.Join(sftpLocation.Basepath, "backup")
+
 	client, err := sftp.NewClient(config)
 	if err != nil {
 		panic(err)
@@ -93,7 +96,7 @@ func main() {
 	fmt.Printf("\nSending files\n")
 	for _, file := range files {
 
-		_, err := client.Lstat("/files/" + file.Name)
+		_, err := client.Lstat(filepath.Join(backupPath, file.Name))
 		if err == nil {
 			fmt.Printf("------ File %s already exists at location `%s`\n", file.Name, location)
 			continue
@@ -101,9 +104,9 @@ func main() {
 
 		size := math.Round((float64(file.Size)/1024)*100) / 100
 
-		fmt.Printf("-----> Sending file to location `%s`\t%s\t[size:%.2fKB, date:%s]\n", location, file.Filepath, size, file.Time)
+		fmt.Printf("-----> Sending file to location `%s`\t%s\t[size:%.2fKB, date:%s]\n", location, filepath.Join(backupPath, file.Filepath), size, file.Time)
 
-		bytesSent, err := client.SendFile("./", file.Name, "/files/", file.Name)
+		bytesSent, err := client.SendFile("./", file.Name, backupPath, file.Name)
 		if err != nil {
 			panic(err)
 		}
