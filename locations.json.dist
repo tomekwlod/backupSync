@@ -1,0 +1,22 @@
+[
+    {
+        "name": "chainsaw-backup",
+        "host": "127.0.0.1",
+        "port": "22",
+        "basepath": "/files/",
+        "auth": {
+            "username": "username",
+            "password": "password"
+        }
+    },
+    {
+        "name": "bebe-test",
+        "host": "127.0.0.1",
+        "port": "22",
+        "basepath": "/files/",
+        "auth": {
+            "username": "username",
+            "password": "password"
+        }
+    }
+]
