@@ -73,7 +73,10 @@ func main() {
 	}
 
 	fmt.Printf("Scanning %s directory\n", path)
-	files := utils.FilesFromDirectory(path, mustcompile)
+	files, err := utils.FilesFromDirectory(path, mustcompile)
+	if err != nil {
+		panic(err)
+	}
 
 	if len(files) == 0 {
 		fmt.Println("No files to upload found")
