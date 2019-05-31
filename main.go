@@ -23,7 +23,14 @@ var l *ml.Logger
 
 func init() {
 	// definig the logger & a log file
-	file, err := os.OpenFile("log/report.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	// log/report.log
+
+	logfile := "./report.log"
+	if os.Getenv("BACKUPLOGPATH") != "" {
+		logfile = os.Getenv("BACKUPLOGPATH")
+	}
+
+	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		panic("Failed to open log file")
 	}
