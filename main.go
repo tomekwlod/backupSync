@@ -17,7 +17,10 @@ import (
 	"github.com/tomekwlod/utils/sftp"
 )
 
+// local
 // go run . -path="./" -mustcompile="\\.csv$" -location=chainsaw-backup
+// prod debug
+// export BACKUPLOGPATH=/var/log/backupreport.log && go run main.go models.go -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"
 
 var l *ml.Logger
 
@@ -31,6 +34,10 @@ func init() {
 	}
 
 	fmt.Println("LOGFILE:" + logfile)
+	fmt.Println("To change the log do: export BACKUPLOGPATH=/var/log/backupsync.log")
+	fmt.Println()
+	fmt.Println("Usage example:")
+	fmt.Println(`export BACKUPLOGPATH=/var/log/backupreport.log && backupsync -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"`)
 
 	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -125,7 +132,7 @@ func main() {
 
 func getSFTPLocation(key string) (location *Location, err error) {
 
-	jsonFile, err := os.Open("./locations.json")
+	jsonFile, err := os.Open("locations.json")
 	if err != nil {
 		return
 	}
