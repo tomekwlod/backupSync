@@ -20,24 +20,19 @@ import (
 // local
 // go run . -path="./" -mustcompile="\\.csv$" -location=chainsaw-backup
 // prod debug
-// export BACKUPLOGPATH=/var/log/backupreport.log && go run main.go models.go -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"
+// go run main.go models.go -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"
 
 var l *ml.Logger
 
 func init() {
 	// definig the logger & a log file
-	// log/report.log
-
-	logfile := "./report.log"
-	if os.Getenv("BACKUPLOGPATH") != "" {
-		logfile = os.Getenv("BACKUPLOGPATH")
-	}
+	logfile := "/var/log/backupreport.log"
 
 	fmt.Println("LOGFILE:" + logfile)
 	fmt.Println("To change the log do: export BACKUPLOGPATH=/var/log/backupsync.log")
 	fmt.Println()
 	fmt.Println("Usage example:")
-	fmt.Println(`export BACKUPLOGPATH=/var/log/backupreport.log && backupsync -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"`)
+	fmt.Println(`backupsync -location="chainsaw-backup" -mustcompile="\\.go$" -dryrun`)
 
 	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -46,8 +41,8 @@ func init() {
 
 	multi := io.MultiWriter(file, os.Stdout)
 	l = ml.New(
-		// os.Getenv("LOGGING_MODE"),
-		"DEBUG",
+		os.Getenv("LOGGING_MODE"),
+		// "DEBUG",
 		log.New(multi, "", log.Ldate|log.Ltime),
 	)
 }
