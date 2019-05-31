@@ -30,9 +30,11 @@ func init() {
 		logfile = os.Getenv("BACKUPLOGPATH")
 	}
 
+	fmt.Println("LOGFILE:" + logfile)
+
 	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		panic("Failed to open log file")
+		panic("Failed to open log file" + logfile)
 	}
 
 	multi := io.MultiWriter(file, os.Stdout)
