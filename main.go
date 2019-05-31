@@ -27,9 +27,14 @@ var l *ml.Logger
 func init() {
 	// definig the logger & a log file
 	logfile := "/var/log/backupreport.log"
+	if os.Getenv("BACKUPLOGPATH") != "" {
+		logfile = os.Getenv("BACKUPLOGPATH")
+	}
 
+	fmt.Println("Help")
+	fmt.Println()
 	fmt.Println("LOGFILE:" + logfile)
-	fmt.Println("To change the log do: export BACKUPLOGPATH=/var/log/backupsync.log")
+	fmt.Println("To change the log do: export BACKUPLOGPATH=/path/to/your/log/file.log")
 	fmt.Println()
 	fmt.Println("Usage example:")
 	fmt.Println(`backupsync -location="chainsaw-backup" -mustcompile="\\.go$" -dryrun`)
