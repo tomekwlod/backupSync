@@ -2,3 +2,4 @@ locations.json
 
 *.csv
 *.tar.gz
+*.log
