@@ -113,7 +113,7 @@ func main() {
 
 		size := math.Round((float64(file.Size)/1024)*100) / 100
 
-		fmt.Printf("-----> Sending file to location `%s`\t%s\t[size:%.2fKB, date:%s]\n", location, filepath.Join(backupPath, file.Filepath), size, file.Time)
+		fmt.Printf("-----> Sending file to location `%s`\t%s\t[size:%.2fKB, date:%s]\n", location, filepath.Join(backupPath, file.Name), size, file.Time)
 
 		if dryrun {
 			fmt.Printf("------ DRYRUN is on\n\n")
@@ -121,7 +121,7 @@ func main() {
 			continue
 		}
 
-		bytesSent, err := client.SendFile("./", file.Name, backupPath, file.Name)
+		bytesSent, err := client.SendFile(file.Filepath, file.Name, backupPath, file.Name)
 		if err != nil {
 			panic(err)
 		}
