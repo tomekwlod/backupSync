@@ -37,7 +37,7 @@ func init() {
 	fmt.Println("To change the log do: export BACKUPLOGPATH=/path/to/your/log/file.log")
 	fmt.Println()
 	fmt.Println("Usage example:")
-	fmt.Println(`backupsync -location="chainsaw-backup" -mustcompile="\\.go$" -dryrun`)
+	fmt.Println(`backupsync -path="/data/backup" -location="chainsaw-backup" -mustcompile="\\.gz$" -dryrun`)
 
 	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
