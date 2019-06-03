@@ -121,7 +121,7 @@ func main() {
 			continue
 		}
 
-		bytesSent, err := client.SendFile(file.Filepath, file.Name, backupPath, file.Name)
+		bytesSent, err := client.SendFile(path, file.Name, backupPath, file.Name)
 		if err != nil {
 			panic(err)
 		}
