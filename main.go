@@ -18,9 +18,11 @@ import (
 )
 
 // local
-// go run . -path="./" -mustcompile="\\.csv$" -location=chainsaw-backup
+// go run . -path="./" -mustcompile="\\.csv$" -location=chainsaw-backup -namespace="/bebe/dmcs"
 // prod debug
-// go run main.go models.go -dryrun -location="chainsaw-backup" -mustcompile="\\.go$"
+// go run main.go models.go -dryrun -location="chainsaw-backup" -mustcompile="\\.go$" -namespace="/bebe/dmcs"
+// prod
+// backupsync -path="/root/"  -location="sftp" -mustcompile="\\.gz$" -namespace="/bebe/dmcs"
 
 var l *ml.Logger
 
@@ -37,7 +39,7 @@ func init() {
 	fmt.Println("To change the log do: export BACKUPLOGPATH=/path/to/your/log/file.log")
 	fmt.Println()
 	fmt.Println("Usage example:")
-	fmt.Println(`backupsync -path="/data/backup" -location="chainsaw-backup" -mustcompile="\\.gz$" -dryrun`)
+	fmt.Println(`backupsync -path="/data/backup" -location="chainsaw-backup" -mustcompile="\\.gz$" -dryrun -namespace="/bebe/dmcs"`)
 
 	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -60,12 +62,14 @@ func main() {
 	fmustcompile := flag.String("mustcompile", "", "Only some files? Usage: \\.csv$ ")
 	flocation := flag.String("location", "chainsaw", "One of the sftp locations; It must exist in yml file")
 	fdryrun := flag.Bool("dryrun", false, "For testing, -dryrun or -dryrun=true for Positive, -dryrun=false or -dryrun=0 for Negative")
+	fnamespace := flag.String("namespace", "/", "By default the files will be send to / remote location. Change it to your needs, eg.: /bebe/dmcs")
 	flag.Parse()
 
 	path := *fpath
 	mustcompile := *fmustcompile
 	location := *flocation
 	dryrun := *fdryrun
+	namespace := *fnamespace
 
 	sftpLocation, err := getSFTPLocation(location)
 	if err != nil {
@@ -94,7 +98,7 @@ func main() {
 		Port:     sftpLocation.Port,
 	}
 
-	backupPath := filepath.Join(sftpLocation.Basepath, "backup")
+	backupPath := filepath.Join(sftpLocation.Basepath, namespace)
 
 	client, err := sftp.NewClient(config)
 	if err != nil {
