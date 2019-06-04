@@ -25,7 +25,7 @@ __Locally you can run__
 `go run . -path="./" -mustcompile="\\.csv$" -location=chainsaw-backup`
 
 __On prod__
-`./backupsync -dryrun -path="./" -location="chainsaw-backup" -mustcompile="\\.gz$"`
+`./backupsync -path="./" -location="chainsaw-backup" -mustcompile="\\.gz$" -dryrun`
 
 - `path` sets the local path the files will be searched for
 - `mustcompile` regexp to include only the files you're interested in; leave empty for all the files

@@ -1,3 +1,15 @@
 #!/bin/bash
 
+# This solution is not perfect because below you can see the hardcoded path to the project
+# In the perfect world this file would not be needed and the original binary would be
+# linked to /opt/scripts instead. The problem is the static files that are now referenced
+# within the application (locations.json). If we execute the binary in /opt/scripts then
+# the file will be missing. Possible solutions are:
+# - this file to navigate to the correct place (the downside is that the -path param points to the application path, not current dir)
+# - include static files to the binary file (but this is not really recommended and elastic, because every time you want to change your confir you would have to build the code again) 
+    # https://stackoverflow.com/questions/35419263/using-a-configuration-file-with-a-compiled-go-program
+    # https://groups.google.com/forum/#!topic/golang-nuts/9FFXv_1EfZI
+
+# The current way seems the best way so far
+
 (cd /var/go/backupSync/current/ && ./backupsync $@)

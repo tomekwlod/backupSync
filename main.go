@@ -112,6 +112,7 @@ func main() {
 		_, err := client.Lstat(filepath.Join(backupPath, file.Name))
 		if err == nil {
 			fmt.Printf("------ File %s already exists at location `%s`\n", file.Name, location)
+
 			continue
 		}
 
