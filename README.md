@@ -31,3 +31,7 @@ __On prod__
 - `mustcompile` regexp to include only the files you're interested in; leave empty for all the files
 - `location` remote location to one of the destinations from the locations.json file
 - `dryrun` to test the files, nothing here will be sent to sftp  
+
+# TODO
+- rename to sync or similar
+- display the size on dryrun mode as well as the normal mode
